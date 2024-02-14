@@ -1,282 +1,152 @@
 #!/bin/bash -x
 
 HOSTNAME=$(hostname -f)
-echo export KAFKA_JMX_HOSTNAME=$HOSTNAME >> .bashrc
-. .bashrc
 KAFKA_HOME=/u01/cnfkfk
 
-cat << EOF > $KAFKA_HOME/etc/kafka/connect-distributed.properties
+echo export KSQL_JMX_OPTS=\"-Djava.rmi.server.hostname='${HOSTNAME}' -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=1099 -javaagent:'${KAFKA_HOME}'/etc/ksqldb/jmx_prometheus_javaagent-0.20.0.jar=7010:'${KAFKA_HOME}'/etc/ksqldb/ksql-jmx.yml\" >> ~/.bashrc
+. .bashrc
+
+cat << EOF > $KAFKA_HOME/etc/ksqldb/ksql-server.properties
 bootstrap.servers=${BOOTSTRAP_SERVERS:-test-kafka.default.svc.cluster.local:9092}
-listeners=${LISTENERS:-"${REST_ADVERTISED_LISTENER}"://"${HOSTNAME}":"${LISTENER_PORT}"}
-rest.advertised.listener=${REST_ADVERTISED_LISTENER:-http}
-group.id=${GROUP_ID:-connect-cluster}
-key.converter=${KEY_CONVERTER:-org.apache.kafka.connect.json.JsonConverter}
-value.converter=${VALUE_CONVERTER:-org.apache.kafka.connect.json.JsonConverter}
-key.converter.schemas.enable=${KEY_CONVERTER_SCHEMAS_ENABLE:-false}
-value.converter.schemas.enable=${VALUE_CONVERTER_SCHEMAS_ENABLE:-false}
-offset.storage.topic=${OFFSET_STORAGE_TOPIC:-connect-offsets}
-config.storage.topic=${CONFIG_STORAGE_TOPIC:-connect-configs}
-status.storage.topic=${STATUS_STORAGE_TOPIC:-connect-status}
-rest.host.name="${HOSTNAME}"
-rest.port=${LISTENER_PORT:-8083}
-rest.advertised.host.name="${HOSTNAME}"
-rest.advertised.port=${LISTENER_PORT:-8083}
-plugin.path=${PLUGIN_PATH:-$KAFKA_HOME/share/java/kafka,$KAFKA_HOME/share/java/kafka-connect-jdbc}
-config.providers=${CONFIG_PROVIDERS:-file}
-config.providers.file.class=${CONFIG_PROVIDERS_FILE_CLASS:-org.apache.kafka.common.config.provider.FileConfigProvider}
-request.timeout.ms=${REQUEST_TIMEOUT_MS:-20000}
-retry.backoff.ms=${RETRY_BACKOFF_MS:-500}
+ksql.service.id=${KSQL_SERVICE_ID:-hf_kafka_ksql_001}
+ksql.streams.producer.delivery.timeout.ms=${KSQL_STREAMS_PRODUCER_DELIVERY_TIMEOUT_MS:-2147483647}
+ksql.streams.producer.max.block.ms=${KSQL_STREAMS_PRODUCER_MAX_BLOCK_MS:-9223372036854775807}
+ksql.internal.topic.replicas=${KSQL_INTERNAL_TOPIC_REPLICAS:-3}
+ksql.internal.topic.min.insync.replicas=${KSQL_INTERNAL_TOPIC_MIN_INSYNC_REPLICAS:-2}
+ksql.streams.replication.factor=${KSQL_STREAMS_REPLICATION_FACTOR:-3}
+ksql.streams.producer.acks=${KSQL_STREAMS_PRODUCER_ACKS:-all}
+ksql.streams.topic.min.insync.replicas=${KSQL_STREAMS_TOPIC_MIN_INSYNC_REPLICAS:-2}
+ksql.streams.state.dir=${KSQL_STREAMS_STATE_DIR:-$KAFKA_HOME/cnfkfk/etc/ksqldb/tmp}
+ksql.streams.num.standby.replicas=${KSQL_STREAMS_NUM_STANDBY_REPLICAS:-1}
+confluent.support.metrics.enable=${CONFLUENT_SUPPORT_METRICS_ENABLE:-false}
+authentication.method=${AUTHENTICATION_METHOD:-BASIC}
+authentication.roles=${AUTHENTICATION_ROLES:-admin,ksql,cli}
+authentication.realm=${AUTHENTICATION_REALM:-KsqlServerProps}
 EOF
 
-# listeners=PLAINTEXT,SSL,SASL_SSL,SASL_PLAINTEXT and security.protocol
-# Broker listener configured in SASL_SSL
+if [[ "$BROKER_LISTENER_MODE" == "SASL_SSL" || "$BROKER_LISTENER_MODE" == "SSL" ]]; then
+cat << EOF >> $KAFKA_HOME/etc/ksqldb/ksql-server.properties
+listeners=${LISTENERS:-https://0.0.0.0:8088}
+advertised.listener=${ADVERTISED_LISTENER:-https://"${HOSTNAME}":8088}
+EOF
+fi
+
+if [[ "$BROKER_LISTENER_MODE" == "SASL_PLAINTEXT" || "$BROKER_LISTENER_MODE" == "PLAINTEXT" ]]; then
+cat << EOF >> $KAFKA_HOME/etc/ksqldb/ksql-server.properties
+listeners=${LISTENERS:-http://0.0.0.0:8088}
+advertised.listener=${ADVERTISED_LISTENER:-http://"${HOSTNAME}":8088}
+EOF
+fi
+
+if [[ "$SCHEMA_REGISTRY_MODE" == "HTTPS" ]]; then
+cat << EOF >> $KAFKA_HOME/etc/ksqldb/ksql-server.properties
+ksql.schema.registry.url=${KSQL_SCHEMA_REGISTRY_URL:-https://sr-service-https:8082}
+ksql.schema.registry.ssl.truststore.location=${KSQL_SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
+ksql.schema.registry.ssl.truststore.password=${KSQL_SCHEMA_REGISTRY_SSL_TRUSTSTORE_PASSWORD:-password}
+ksql.schema.registry.ssl.keystore.location=${KSQL_SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
+ksql.schema.registry.ssl.keystore.password=${KSQL_SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
+ksql.schema.registry.ssl.key.password=${KSQL_SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
+EOF
+fi
+
+if [[ "$SCHEMA_REGISTRY_MODE" == "HTTP" ]]; then
+cat << EOF >> $KAFKA_HOME/etc/ksqldb/ksql-server.properties
+ksql.schema.registry.url=${KSQL_SCHEMA_REGISTRY_URL:-http://sr-service-http:8081}
+EOF
+fi
 
 if [[ "$BROKER_LISTENER_MODE" == "SASL_SSL" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
+echo 'Hi'
+cat << EOF >> $KAFKA_HOME/etc/ksqldb/ksql-server.properties
 security.protocol=${SECURITY_PROTOCOL:-SASL_SSL}
-ssl.protocol=${SSL_PROTOCOL:-TLS}
-ssl.truststore.location=${SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
-ssl.truststore.password=${SSL_TRUSTSTORE_PASSWORD:-password}
-ssl.keystore.location=${SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-ssl.keystore.password=${SSL_KEYSTORE_PASSWORD:-password}
-ssl.key.password=${SSL_KEY_PASSWORD:-password}
-ssl.endpoint.identification.algorithm=${SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
-consumer.ssl.endpoint.identification.algorithm=${CONSUMER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
-consumer.request.timeout.ms=${CONSUMER_REQUEST_TIMEOUT_MS:-20000}
-consumer.retry.backoff.ms=${CONSUMER_RETRY_BACKOFF_MS:-500}
-consumer.security.protocol=${CONSUMER_SECURITY_PROTOCOL:-SASL_SSL}
-consumer.ssl.protocol=${CONSUMER_SSL_PROTOCOL:-TLS}
-consumer.ssl.truststore.location=${CONSUMER_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
-consumer.ssl.truststore.password=${CONSUMER_SSL_TRUSTSTORE_PASSWORD:-password}
-consumer.ssl.keystore.location=${CONSUMER_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-consumer.ssl.keystore.password=${CONSUMER_SSL_KEYSTORE_PASSWORD:-password}
-consumer.ssl.key.password=${CONSUMER_SSL_KEY_PASSWORD:-password}
-producer.ssl.endpoint.identification.algorithm=${PRODUCER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
-producer.request.timeout.ms=${PRODUCER_REQUEST_TIMEOUT_MS:-20000}
-producer.retry.backoff.ms=${PRODUCER_RETRY_BACKOFF_MS:-500}
-producer.security.protocol=${PRODUCER_SECURITY_PROTOCOL:-SASL_SSL}
-producer.ssl.protocol=${PRODUCER_SSL_PROTOCOL:-TLS}
-producer.ssl.truststore.location=${PRODUCER_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
-producer.ssl.truststore.password=${PRODUCER_SSL_TRUSTSTORE_PASSWORD:-password}
-producer.ssl.keystore.location=${PRODUCER_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-producer.ssl.keystore.password=${PRODUCER_SSL_KEY_PASSWORD:-password}
-producer.ssl.key.password=${PRODUCER_SSL_KEY_PASSWORD:-password}
-sasl.jaas.config=${SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
-producer.sasl.jaas.config=${PRODUCER_SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
-consumer.sasl.jaas.config=${CONSUMER_SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
 sasl.mechanism=${SASL_MECHANISM:-PLAIN}
-producer.sasl.mechanism=${PRODUCER_SASL_MECHANISM:-PLAIN}
-consumer.sasl.mechanism=${CONSUMER_SASL_MECHANISM:-PLAIN}
-EOF
-if [[ "$SCHEMA_REGISTRY_MODE" == "HTTPS" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
-key.converter.schema.registry.ssl.keystore.location=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-key.converter.schema.registry.ssl.keystore.password=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-key.converter.schema.registry.ssl.key.password=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-key.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-key.converter.basic.auth.credentials.source=${KEY_CONVERTER_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-key.converter.basic.auth.user.info=${KEY_CONVERTER_BASIC_AUTH_USER_INFO:-user1:password}
-key.converter.schema.registry.ssl.truststore.type=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_TYPE:-PEM}
-key.converter.schema.registry.ssl.truststore.location=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/cert.pem}
-value.converter.schema.registry.ssl.truststore.location=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/cert.pem}
-value.converter.schema.registry.ssl.keystore.location=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-value.converter.schema.registry.ssl.keystore.password=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-value.converter.schema.registry.ssl.key.password=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-value.converter.schema.registry.url=${VALUE_CONVERTER_SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-value.converter.basic.auth.credentials.source=${VALUE_CONVERTER_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-value.converter.basic.auth.user.info=${VALUE_CONVERTER_BASIC_AUTH_USER_INFO:-user1:password}
-value.converter.schema.registry.ssl.truststore.type=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_TYPE:-PEM}
-schema.registry.url=${SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-schema.registry.ssl.truststore.password=${SCHEMA_REGISTRY_SSL_TRUSTSTORE_PASSWORD:-password}
-schema.registry.ssl.truststore.location=${SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
-schema.registry.ssl.keystore.password=${SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-schema.registry.ssl.keystore.location=${SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-schema.registry.ssl.key.password=${SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-schema.registry.basic.auth.credentials.source=${SCHEMA_REGISTRY_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-schema.registry.basic.auth.user.info=${SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO:-user1:password}
-EOF
-fi
-if [[ "$SCHEMA_REGISTRY_MODE" == "HTTP" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
-key.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-value.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-schema.registry.url=${SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-EOF
-fi
-fi
-
-# Broker listener configured in PLAINTEXT
-
-if [[ "$BROKER_LISTENER_MODE" == "PLAINTEXT" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
-security.protocol=${SECURITY_PROTOCOL:-PLAINTEXT}
-consumer.request.timeout.ms=${CONSUMER_REQUEST_TIMEOUT_MS:-20000}
-consumer.retry.backoff.ms=${CONSUMER_RETRY_BACKOFF_MS:-500}
-consumer.security.protocol=${CONSUMER_SECURITY_PROTOCOL:-PLAINTEXT}
-producer.request.timeout.ms=${PRODUCER_REQUEST_TIMEOUT_MS:-20000}
-producer.retry.backoff.ms=${PRODUCER_RETRY_BACKOFF_MS:-500}
-producer.security.protocol=${PRODUCER_SECURITY_PROTOCOL:-PLAINTEXT}
-EOF
-if [[ "$SCHEMA_REGISTRY_MODE" == "HTTPS" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
-key.converter.schema.registry.ssl.keystore.location=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-key.converter.schema.registry.ssl.keystore.password=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-key.converter.schema.registry.ssl.key.password=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-key.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-key.converter.basic.auth.credentials.source=${KEY_CONVERTER_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-key.converter.basic.auth.user.info=${KEY_CONVERTER_BASIC_AUTH_USER_INFO:-user1:password}
-key.converter.schema.registry.ssl.truststore.type=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_TYPE:-PEM}
-key.converter.schema.registry.ssl.truststore.location=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/cert.pem}
-value.converter.schema.registry.ssl.truststore.location=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/cert.pem}
-value.converter.schema.registry.ssl.keystore.location=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-value.converter.schema.registry.ssl.keystore.password=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-value.converter.schema.registry.ssl.key.password=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-value.converter.schema.registry.url=${VALUE_CONVERTER_SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-value.converter.basic.auth.credentials.source=${VALUE_CONVERTER_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-value.converter.basic.auth.user.info=${VALUE_CONVERTER_BASIC_AUTH_USER_INFO:-user1:password}
-value.converter.schema.registry.ssl.truststore.type=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_TYPE:-PEM}
-schema.registry.url=${SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-schema.registry.ssl.truststore.password=${SCHEMA_REGISTRY_SSL_TRUSTSTORE_PASSWORD:-password}
-schema.registry.ssl.truststore.location=${SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
-schema.registry.ssl.keystore.password=${SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-schema.registry.ssl.keystore.location=${SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-schema.registry.ssl.key.password=${SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-schema.registry.basic.auth.credentials.source=${SCHEMA_REGISTRY_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-schema.registry.basic.auth.user.info=${SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO:-user1:password}
-EOF
-fi
-if [[ "$SCHEMA_REGISTRY_MODE" == "HTTP" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
-key.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-value.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-schema.registry.url=${SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-EOF
-fi
-fi
-
-# Broker configured in SSL
-
-if [[ "$BROKER_LISTENER_MODE" == "SSL" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
-security.protocol=${SECURITY_PROTOCOL:-SSL}
-ssl.protocol=${SSL_PROTOCOL:-TLS}
-ssl.truststore.location=${SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
-ssl.truststore.password=${SSL_TRUSTSTORE_PASSWORD:-password}
+sasl.jaas.config=${SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
 ssl.keystore.location=${SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
 ssl.keystore.password=${SSL_KEYSTORE_PASSWORD:-password}
 ssl.key.password=${SSL_KEY_PASSWORD:-password}
+ssl.client.auth=${SSL_CLIENT_AUTH:-true}
 ssl.endpoint.identification.algorithm=${SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
+ssl.truststore.location=${SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
+ssl.truststore.password=${SSL_TRUSTSTORE_PASSWORD:-password}
+producer.ssl.endpoint.identification.algorithm=${PRODUCER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
+producer.security.protocol=${PRODUCER_SECURITY_PROTOCOL:-SASL_SSL}
+producer.sasl.mechanism=${PRODUCER_SASL_MECHANISM:-PLAIN}
+producer.ssl.truststore.location=${PRODUCER_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
+producer.ssl.truststore.password=${PRODUCER_SSL_TRUSTSTORE_PASSWORD:-password}
+producer.ssl.keystore.location=${PRODUCER_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
+producer.ssl.keystore.password=${PRODUCER_SSL_KEYSTORE_PASSWORD:-password}
+producer.ssl.key.password=${PRODUCER_SSL_KEY_PASSWORD:-password}
+producer.sasl.jaas.config=${PRODUCER_SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
 consumer.ssl.endpoint.identification.algorithm=${CONSUMER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
-consumer.request.timeout.ms=${CONSUMER_REQUEST_TIMEOUT_MS:-20000}
-consumer.retry.backoff.ms=${CONSUMER_RETRY_BACKOFF_MS:-500}
-consumer.security.protocol=${CONSUMER_SECURITY_PROTOCOL:-SSL}
-consumer.ssl.protocol=${CONSUMER_SSL_PROTOCOL:-TLS}
+consumer.security.protocol=${CONSUMER_SECURITY_PROTOCOL:-SASL_SSL}
+consumer.sasl.mechanism=${CONSUMER_SASL_MECHANISM:-PLAIN}
 consumer.ssl.truststore.location=${CONSUMER_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
 consumer.ssl.truststore.password=${CONSUMER_SSL_TRUSTSTORE_PASSWORD:-password}
 consumer.ssl.keystore.location=${CONSUMER_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
 consumer.ssl.keystore.password=${CONSUMER_SSL_KEYSTORE_PASSWORD:-password}
 consumer.ssl.key.password=${CONSUMER_SSL_KEY_PASSWORD:-password}
-producer.ssl.endpoint.identification.algorithm=${PRODUCER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
-producer.request.timeout.ms=${PRODUCER_REQUEST_TIMEOUT_MS:-20000}
-producer.retry.backoff.ms=${PRODUCER_RETRY_BACKOFF_MS:-500}
-producer.security.protocol=${PRODUCER_SECURITY_PROTOCOL:-SSL}
-producer.ssl.protocol=${PRODUCER_SSL_PROTOCOL:-TLS}
-producer.ssl.truststore.location=${PRODUCER_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
-producer.ssl.truststore.password=${PRODUCER_SSL_TRUSTSTORE_PASSWORD:-password}
-producer.ssl.keystore.location=${PRODUCER_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-producer.ssl.keystore.password=${PRODUCER_SSL_KEY_PASSWORD:-password}
-EOF
-if [[ "$SCHEMA_REGISTRY_MODE" == "HTTPS" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
-key.converter.schema.registry.ssl.keystore.location=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-key.converter.schema.registry.ssl.keystore.password=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-key.converter.schema.registry.ssl.key.password=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-key.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-key.converter.basic.auth.credentials.source=${KEY_CONVERTER_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-key.converter.basic.auth.user.info=${KEY_CONVERTER_BASIC_AUTH_USER_INFO:-user1:password}
-key.converter.schema.registry.ssl.truststore.type=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_TYPE:-PEM}
-key.converter.schema.registry.ssl.truststore.location=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/cert.pem}
-value.converter.schema.registry.ssl.truststore.location=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/cert.pem}
-value.converter.schema.registry.ssl.keystore.location=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-value.converter.schema.registry.ssl.keystore.password=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-value.converter.schema.registry.ssl.key.password=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-value.converter.schema.registry.url=${VALUE_CONVERTER_SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-value.converter.basic.auth.credentials.source=${VALUE_CONVERTER_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-value.converter.basic.auth.user.info=${VALUE_CONVERTER_BASIC_AUTH_USER_INFO:-user1:password}
-value.converter.schema.registry.ssl.truststore.type=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_TYPE:-PEM}
-schema.registry.url=${SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-schema.registry.ssl.truststore.password=${SCHEMA_REGISTRY_SSL_TRUSTSTORE_PASSWORD:-password}
-schema.registry.ssl.truststore.location=${SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
-schema.registry.ssl.keystore.password=${SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-schema.registry.ssl.keystore.location=${SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-schema.registry.ssl.key.password=${SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-schema.registry.basic.auth.credentials.source=${SCHEMA_REGISTRY_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-schema.registry.basic.auth.user.info=${SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO:-user1:password}
+consumer.sasl.jaas.config=${CONSUMER_SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
 EOF
 fi
-if [[ "$SCHEMA_REGISTRY_MODE" == "HTTP" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
-key.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-value.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-schema.registry.url=${SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-EOF
-fi
-fi
-
-# Broker configured in SASL_PLAINTEXT
 
 if [[ "$BROKER_LISTENER_MODE" == "SASL_PLAINTEXT" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
+cat << EOF >> $KAFKA_HOME/etc/ksqldb/ksql-server.properties
 security.protocol=${SECURITY_PROTOCOL:-SASL_PLAINTEXT}
-consumer.request.timeout.ms=${CONSUMER_REQUEST_TIMEOUT_MS:-20000}
-consumer.retry.backoff.ms=${CONSUMER_RETRY_BACKOFF_MS:-500}
-consumer.security.protocol=${CONSUMER_SECURITY_PROTOCOL:-SASL_PLAINTEXT}
-producer.request.timeout.ms=${PRODUCER_REQUEST_TIMEOUT_MS:-20000}
-producer.retry.backoff.ms=${PRODUCER_RETRY_BACKOFF_MS:-500}
-producer.security.protocol=${PRODUCER_SECURITY_PROTOCOL:-SASL_PLAINTEXT}
-sasl.jaas.config=${SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
-producer.sasl.jaas.config=${PRODUCER_SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
-consumer.sasl.jaas.config=${CONSUMER_SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
 sasl.mechanism=${SASL_MECHANISM:-PLAIN}
+sasl.jaas.config=${SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
+producer.security.protocol=${PRODUCER_SECURITY_PROTOCOL:-SASL_PLAINTEXT}
 producer.sasl.mechanism=${PRODUCER_SASL_MECHANISM:-PLAIN}
+producer.sasl.jaas.config=${PRODUCER_SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
+consumer.security.protocol=${CONSUMER_SECURITY_PROTOCOL:-SASL_SSL}
 consumer.sasl.mechanism=${CONSUMER_SASL_MECHANISM:-PLAIN}
+consumer.sasl.jaas.config=${CONSUMER_SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.PlainLoginModule required username="${SASL_USER}" password="${SASL_PASSWORD}";}
 EOF
-if [[ "$SCHEMA_REGISTRY_MODE" == "HTTPS" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
-key.converter.schema.registry.ssl.keystore.location=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-key.converter.schema.registry.ssl.keystore.password=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-key.converter.schema.registry.ssl.key.password=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-key.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-key.converter.basic.auth.credentials.source=${KEY_CONVERTER_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-key.converter.basic.auth.user.info=${KEY_CONVERTER_BASIC_AUTH_USER_INFO:-user1:password}
-key.converter.schema.registry.ssl.truststore.type=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_TYPE:-PEM}
-key.converter.schema.registry.ssl.truststore.location=${KEY_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/cert.pem}
-value.converter.schema.registry.ssl.truststore.location=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/cert.pem}
-value.converter.schema.registry.ssl.keystore.location=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-value.converter.schema.registry.ssl.keystore.password=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-value.converter.schema.registry.ssl.key.password=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-value.converter.schema.registry.url=${VALUE_CONVERTER_SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-value.converter.basic.auth.credentials.source=${VALUE_CONVERTER_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-value.converter.basic.auth.user.info=${VALUE_CONVERTER_BASIC_AUTH_USER_INFO:-user1:password}
-value.converter.schema.registry.ssl.truststore.type=${VALUE_CONVERTER_SCHEMA_REGISTRY_SSL_TRUSTSTORE_TYPE:-PEM}
-schema.registry.url=${SCHEMA_REGISTRY_URL:-https://127.0.0.1:8082}
-schema.registry.ssl.truststore.password=${SCHEMA_REGISTRY_SSL_TRUSTSTORE_PASSWORD:-password}
-schema.registry.ssl.truststore.location=${SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
-schema.registry.ssl.keystore.password=${SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD:-password}
-schema.registry.ssl.keystore.location=${SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
-schema.registry.ssl.key.password=${SCHEMA_REGISTRY_SSL_KEY_PASSWORD:-password}
-schema.registry.basic.auth.credentials.source=${SCHEMA_REGISTRY_BASIC_AUTH_CREDENTIALS_SOURCE:-USER_INFO}
-schema.registry.basic.auth.user.info=${SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO:-user1:password}
-EOF
-fi
-if [[ "$SCHEMA_REGISTRY_MODE" == "HTTP" ]]; then
-cat << EOF >> $KAFKA_HOME/etc/kafka/connect-distributed.properties
-key.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-value.converter.schema.registry.url=${KEY_CONVERTER_SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-schema.registry.url=${SCHEMA_REGISTRY_URL:-http://127.0.0.1:8081}
-EOF
-fi
 fi
 
-connect-distributed $KAFKA_HOME/etc/kafka/connect-distributed.properties  & echo $! > $KAFKA_HOME/etc/kafka/connect-distributed.pid &
+if [[ "$BROKER_LISTENER_MODE" == "PLAINTEXT" ]]; then
+cat << EOF >> $KAFKA_HOME/etc/ksqldb/ksql-server.properties
+security.protocol=${SECURITY_PROTOCOL:-PLAINTEXT}
+producer.security.protocol=${PRODUCER_SECURITY_PROTOCOL:-PLAINTEXT}
+consumer.security.protocol=${CONSUMER_SECURITY_PROTOCOL:-PLAINTEXT}
+EOF
+fi
+
+if [[ "$BROKER_LISTENER_MODE" == "SSL" ]]; then
+cat << EOF >> $KAFKA_HOME/etc/ksqldb/ksql-server.properties
+security.protocol=${SECURITY_PROTOCOL:-SSL}
+ssl.keystore.location=${SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
+ssl.keystore.password=${SSL_KEYSTORE_PASSWORD:-password}
+ssl.key.password=${SSL_KEY_PASSWORD:-password}
+ssl.client.auth=${SSL_CLIENT_AUTH:-true}
+ssl.endpoint.identification.algorithm=${SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
+ssl.truststore.location=${SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
+ssl.truststore.password=${SSL_TRUSTSTORE_PASSWORD:-password}
+producer.ssl.endpoint.identification.algorithm=${PRODUCER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
+producer.security.protocol=${PRODUCER_SECURITY_PROTOCOL:-SSL}
+producer.ssl.truststore.location=${PRODUCER_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
+producer.ssl.truststore.password=${PRODUCER_SSL_TRUSTSTORE_PASSWORD:-password}
+producer.ssl.keystore.location=${PRODUCER_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
+producer.ssl.keystore.password=${PRODUCER_SSL_KEYSTORE_PASSWORD:-password}
+producer.ssl.key.password=${PRODUCER_SSL_KEY_PASSWORD:-password}
+consumer.ssl.endpoint.identification.algorithm=${CONSUMER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
+consumer.security.protocol=${CONSUMER_SECURITY_PROTOCOL:-SSL}
+consumer.ssl.truststore.location=${CONSUMER_SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
+consumer.ssl.truststore.password=${CONSUMER_SSL_TRUSTSTORE_PASSWORD:-password}
+consumer.ssl.keystore.location=${CONSUMER_SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
+consumer.ssl.keystore.password=${CONSUMER_SSL_KEYSTORE_PASSWORD:-password}
+consumer.ssl.key.password=${CONSUMER_SSL_KEY_PASSWORD:-password}
+EOF
+fi
+
+cat << EOF >> $KAFKA_HOME/etc/ksqldb/jaas_config.file
+KsqlServerProps {
+                 org.eclipse.jetty.jaas.spi.PropertyFileLoginModule required
+                 file="$KAFKA_HOME/etc/ksqldb/password-file"
+                 debug="false";
+};
+EOF
+
+echo "fred: MD5:$(echo -n 'password' | md5sum | grep -o '^\S\+'),cli,admin" >> $KAFKA_HOME/etc/ksqldb/password-file
+
+bin/ksql-server-start $KAFKA_HOME/etc/ksqldb/ksql-server.properties &
 sleep infinity
