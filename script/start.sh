@@ -4,6 +4,8 @@ HOSTNAME=$(hostname -f)
 KAFKA_HOME=/u01/cnfkfk
 
 echo export KSQL_JMX_OPTS=\"-Djava.rmi.server.hostname='${HOSTNAME}' -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=1099 -javaagent:'${KAFKA_HOME}'/etc/ksqldb/jmx_prometheus_javaagent-0.20.0.jar=7010:'${KAFKA_HOME}'/etc/ksqldb/ksql-jmx.yml\" >> ~/.bashrc
+echo export KSQL_OPTS=\"-Dauthentication.method=BASIC -Dauthentication.realm='${AUTHENTICATION_REALM}' -Dauthentication.roles=admin,user,cli -Djava.security.auth.login.config='${KAFKA_HOME}'/etc/ksqldb/jaas_config.file\" >> ~/.bashrc
+echo export KSQL_LOG4J_OPTS=\"-Dlog4j.configuration=file:$KAFKA_HOME/etc/ksqldb/log4j-file-custom.properties\" >> ~/.bashrc
 . .bashrc
 
 cat << EOF > $KAFKA_HOME/etc/ksqldb/ksql-server.properties
@@ -16,11 +18,11 @@ ksql.internal.topic.min.insync.replicas=${KSQL_INTERNAL_TOPIC_MIN_INSYNC_REPLICA
 ksql.streams.replication.factor=${KSQL_STREAMS_REPLICATION_FACTOR:-3}
 ksql.streams.producer.acks=${KSQL_STREAMS_PRODUCER_ACKS:-all}
 ksql.streams.topic.min.insync.replicas=${KSQL_STREAMS_TOPIC_MIN_INSYNC_REPLICAS:-2}
-ksql.streams.state.dir=${KSQL_STREAMS_STATE_DIR:-$KAFKA_HOME/cnfkfk/etc/ksqldb/tmp}
+ksql.streams.state.dir=${KSQL_STREAMS_STATE_DIR:-$KAFKA_HOME/etc/ksqldb/tmp}
 ksql.streams.num.standby.replicas=${KSQL_STREAMS_NUM_STANDBY_REPLICAS:-1}
 confluent.support.metrics.enable=${CONFLUENT_SUPPORT_METRICS_ENABLE:-false}
 authentication.method=${AUTHENTICATION_METHOD:-BASIC}
-authentication.roles=${AUTHENTICATION_ROLES:-admin,ksql,cli}
+authentication.roles=${AUTHENTICATION_ROLES:-admin,cli,user}
 authentication.realm=${AUTHENTICATION_REALM:-KsqlServerProps}
 EOF
 
@@ -56,7 +58,6 @@ EOF
 fi
 
 if [[ "$BROKER_LISTENER_MODE" == "SASL_SSL" ]]; then
-echo 'Hi'
 cat << EOF >> $KAFKA_HOME/etc/ksqldb/ksql-server.properties
 security.protocol=${SECURITY_PROTOCOL:-SASL_SSL}
 sasl.mechanism=${SASL_MECHANISM:-PLAIN}
@@ -64,7 +65,7 @@ sasl.jaas.config=${SASL_JAAS_CONFIG:-org.apache.kafka.common.security.plain.Plai
 ssl.keystore.location=${SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
 ssl.keystore.password=${SSL_KEYSTORE_PASSWORD:-password}
 ssl.key.password=${SSL_KEY_PASSWORD:-password}
-ssl.client.auth=${SSL_CLIENT_AUTH:-true}
+ssl.client.authentication=${SSL_CLIENT_AUTH:-NONE}
 ssl.endpoint.identification.algorithm=${SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
 ssl.truststore.location=${SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
 ssl.truststore.password=${SSL_TRUSTSTORE_PASSWORD:-password}
@@ -117,7 +118,7 @@ security.protocol=${SECURITY_PROTOCOL:-SSL}
 ssl.keystore.location=${SSL_KEYSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks}
 ssl.keystore.password=${SSL_KEYSTORE_PASSWORD:-password}
 ssl.key.password=${SSL_KEY_PASSWORD:-password}
-ssl.client.auth=${SSL_CLIENT_AUTH:-true}
+ssl.client.authentication=${SSL_CLIENT_AUTH:-true}
 ssl.endpoint.identification.algorithm=${SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:-}
 ssl.truststore.location=${SSL_TRUSTSTORE_LOCATION:-$KAFKA_HOME/etc/ssl/kafka.truststore.jks}
 ssl.truststore.password=${SSL_TRUSTSTORE_PASSWORD:-password}
@@ -139,14 +140,29 @@ EOF
 fi
 
 cat << EOF >> $KAFKA_HOME/etc/ksqldb/jaas_config.file
-KsqlServerProps {
-                 org.eclipse.jetty.jaas.spi.PropertyFileLoginModule required
-                 file="$KAFKA_HOME/etc/ksqldb/password-file"
-                 debug="false";
+$AUTHENTICATION_REALM {
+                        org.eclipse.jetty.jaas.spi.PropertyFileLoginModule required
+                        file="$KAFKA_HOME/etc/ksqldb/password-file"
+                        debug="true";
 };
 EOF
 
-echo "fred: MD5:$(echo -n 'password' | md5sum | grep -o '^\S\+'),cli,admin" >> $KAFKA_HOME/etc/ksqldb/password-file
+echo "fred: MD5:$(echo -n 'password' | md5sum | grep -o '^\S\+'),user,cli,admin" >> $KAFKA_HOME/etc/ksqldb/password-file
+
+cat << EOF > $KAFKA_HOME/etc/ssl/client.properties
+security.protocol=SASL_SSL
+sasl.mechanism=SCRAM-SHA-256
+sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required \
+    username="${SASL_USER}" \
+    password="${SASL_PASSWORD}";
+ssl.truststore.type=JKS
+ssl.truststore.location=$KAFKA_HOME/etc/ssl/kafka.truststore.jks
+ssl.truststore.password=${SSL_TRUSTSTORE_PASSWORD:-password}
+ssl.keystore.type=JKS
+ssl.keystore.location=$KAFKA_HOME/etc/ssl/kafka-broker-0.keystore.jks
+ssl.keystore.password=${SSL_KEYSTORE_PASSWORD:-password}
+ssl.endpoint.identification.algorithm=
+EOF
 
 bin/ksql-server-start $KAFKA_HOME/etc/ksqldb/ksql-server.properties &
 sleep infinity

@@ -173,6 +173,7 @@ ADD --chown=kafka:kafka --chmod=755 https://packages.confluent.io/archive/7.5/co
 ADD --chown=kafka:kafka --chmod=755 https://download.oracle.com/java/17/archive/jdk-17.0.10_linux-x64_bin.tar.gz $KAFKA_HOME
 ADD --chown=kafka:kafka --chmod=755 https://repo.maven.apache.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.20.0/jmx_prometheus_javaagent-0.20.0.jar $KAFKA_HOME/etc/ksqldb/
 ADD --chown=kafka:kafka --chmod=755 config/ksql-jmx.yml $KAFKA_HOME/etc/ksqldb/
+ADD --chown=kafka:kafka --chmod=755 config/log4j-file-custom.properties $KAFKA_HOME/etc/ksqldb/
 
 RUN mkdir -p $KAFKA_HOME/java && \
     tar -zx -C $KAFKA_HOME/java --strip-components=1 -f jdk-17.0.10_linux-x64_bin.tar.gz && \
@@ -189,7 +190,7 @@ WORKDIR $KAFKA_HOME
 
 ENV PATH="${PATH}:$KAFKA_HOME/java/bin:$KAFKA_HOME/bin" 
 ENV JAVA_HOME="$KAFKA_HOME/java"
-ENV CLASSPATH="${CLASSPATH}:$KAFKA_HOME/share/java/kafka-connect-jdbc/*:$KAFKA_HOME/share/java/kafka/*"
+# ENV CLASSPATH="${CLASSPATH}:$KAFKA_HOME/share/java/kafka-connect-jdbc/*:$KAFKA_HOME/share/java/kafka/*"
 
 WORKDIR $KAFKA_HOME/etc/ssl
 
