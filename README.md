@@ -352,6 +352,8 @@ Ksqldb server configuration includes following lines for user authentication.
 
     $ ksql   https://ksql.default.svc:8088 --user fred --password password
 
+![Screenshot from 2024-02-16 19-42-32](https://github.com/Dwijad/Ksql-Docker/assets/12824049/15346cc1-9b37-4784-a099-bab173782033)
+
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbMTg2NTU1ODczLC0yNTIxODE1NjIsMTAzNz
 Q2MzkzNSwtMTI4NTU2NzM2OCwtMTI4ODc3NDk0MSw0NjQwMDU2
