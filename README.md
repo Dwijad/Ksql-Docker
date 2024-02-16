@@ -158,9 +158,22 @@ Description: BASIC username.
 Name: SASL_PASSWORD
 Default value: password
 Description: Password for SASL_USER.
+
+Name: KSQL_JMX_PORT
+Default value: 8080
+Description: The JMX Port.
+
+Name: KSQL_JMX_HOSTNAME
+Default value: connect-worker-1
+Description: The hostname associated with locally created remote objects.
+
+Name: KSQL_JMX_OPTS
+Default value: "-Djava.rmi.server.hostname='${HOSTNAME}' -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=1099 -javaagent:'${KAFKA_HOME}'/etc/ksqldb/jmx_prometheus_javaagent-0.20.0.jar=7010:'${KAFKA_HOME}'/etc/ksqldb/ksql-jmx.yml"
+Description: The JMX options.
+
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OT
-QyMjc0NjQsMTg0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNzAzMTgw
-NTJdfQ==
+eyJoaXN0b3J5IjpbNTUzNTY1NjcwLDE5OTU0MDYyNzksLTUwOD
+Y4NzM4NSwtNTk0MjI3NDY0LDE4NDc4NTc3MjksLTE3Mjk4MzUy
+MywxMDcwMzE4MDUyXX0=
 -->
