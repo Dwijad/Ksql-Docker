@@ -322,7 +322,8 @@ $ DOCKER_BUILDKIT=1 docker buildx build -t <repo-name>/ksql-docker:<tag name> --
     status: {}
 
 ### User authentication
-The default authentication method configured for user in Ksqlserver is BASIC with authenthication realm being KsqlServerProps
+
+The default authentication method configured for user in Ksqlserver is BASIC with authentication realm being KsqlServerProps.  The file `jaas_config.file` defines how the ksqlDB server authenticates users.
  
 
     $ cat /u01/cnfkfk/etc/ksqldb/jaas_config.file
@@ -346,7 +347,7 @@ Make an entry of user and password in the password file.
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTc4MDkxMTU4NiwtMTI4NTU2NzM2OCwtMT
+eyJoaXN0b3J5IjpbLTg1OTg4NjYxNCwtMTI4NTU2NzM2OCwtMT
 I4ODc3NDk0MSw0NjQwMDU2NjgsLTUzMTI5OTg0MSwxOTgwNzUw
 NTYyLDgyMDYyNzQ0OSwtMTEyMTEyNjE1Miw5OTIxNDg0ODcsLT
 E0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OTQy
