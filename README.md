@@ -46,13 +46,9 @@ Description: Group ID used to build Dockerfile
 Name: USERNAME 
 Default value: kafka
 Description: Kafka files/folder owner 
-
-Name: SCHEMA_REGISTRY_VERSION 
-Default value: 3.5.0
-Description: Schema registry version
  
 Name: LISTENERS 
-Default value: http://0.0.0.0:8081, https://0.0.0.0:8082
+Default value: https://0.0.0.0:8088
 Description: Comma-separated list of listeners that listen for API requests over either HTTP or HTTPS.
 
 Name: SSL_KEYSTORE_LOCATION 
@@ -147,6 +143,6 @@ Name:   SCHEMA_REGISTRY_JMX_PORT
 Default value: 8080
 Description: Schema registry JMX port.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTg0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNz
-AzMTgwNTJdfQ==
+eyJoaXN0b3J5IjpbNjk4NzcwMTU1LDE4NDc4NTc3MjksLTE3Mj
+k4MzUyMywxMDcwMzE4MDUyXX0=
 -->
