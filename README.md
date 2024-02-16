@@ -79,6 +79,35 @@ Name:  SSL_KEY_PASSWORD
 Default value: password
 Description: SSL key password
 
+Name: CONSUMER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM
+Default value: Empty String
+Description: Algorithm used by consumer to validate Kafka server host name.
+
+Name: CONSUMER_SECURITY_PROTOCOL
+Default value: SASL_SSL
+Description: The security protocol used by consumer while connecting to kafka broker.
+
+Name: CONSUMER_SSL_TRUSTSTORE_LOCATION
+Default value: /u01/cnfkfk/etc/ssl/kafka.truststore.jks
+Description: The SSL truststore location for consumer. 
+
+Name: CONSUMER_SSL_TRUSTSTORE_PASSWORD
+Default value: password
+Description: The SSL truststore password for consumer.
+
+Name: CONSUMER_SSL_KEYSTORE_LOCATION
+Default value: /u01/cnfkfk/etc/ssl/kafka-broker-0.keystore.jks
+Description: The SSL keystore location for consumer. 
+
+Name: CONSUMER_SSL_KEYSTORE_PASSWORD
+Default value: password
+Description: The SSL keystore password for consumer.
+
+Name: CONSUMER_SSL_KEY_PASSWORD
+Default value: password
+Description: The SSL key password for consumer.
+
+```
 
 
 Name:   SCHEMA_REGISTRY_JMX_OPTS   
@@ -101,6 +130,6 @@ Name:   SCHEMA_REGISTRY_JMX_PORT
 Default value: 8080
 Description: Schema registry JMX port.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTU5NDIyNzQ2NCwxODQ3ODU3NzI5LC0xNz
-I5ODM1MjMsMTA3MDMxODA1Ml19
+eyJoaXN0b3J5IjpbLTM1NjE4MjA1NSwtNTk0MjI3NDY0LDE4ND
+c4NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
 -->
