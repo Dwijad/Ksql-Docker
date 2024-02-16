@@ -321,13 +321,21 @@ $ DOCKER_BUILDKIT=1 docker buildx build -t <repo-name>/ksql-docker:<tag name> --
       restartPolicy: Always
     status: {}
 
-### Client configuration
+### User authentication
+
+    $ cat /u01/cnfkfk/etc/ksqldb/jaas_config.file
+    KsqlServerProps {
+                     org.eclipse.jetty.jaas.spi.PropertyFileLoginModule required
+                     file="/u01/cnfkfk/etc/ksqldb/password-file"
+                     debug="true";
+    };
+
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyODg3NzQ5NDEsNDY0MDA1NjY4LC01Mz
-EyOTk4NDEsMTk4MDc1MDU2Miw4MjA2Mjc0NDksLTExMjExMjYx
-NTIsOTkyMTQ4NDg3LC0xNDM4OTM3NDcxLDE5OTU0MDYyNzksLT
-UwODY4NzM4NSwtNTk0MjI3NDY0LDE4NDc4NTc3MjksLTE3Mjk4
-MzUyMywxMDcwMzE4MDUyXX0=
+eyJoaXN0b3J5IjpbLTk4MDc2MzQ0OSwtMTI4ODc3NDk0MSw0Nj
+QwMDU2NjgsLTUzMTI5OTg0MSwxOTgwNzUwNTYyLDgyMDYyNzQ0
+OSwtMTEyMTEyNjE1Miw5OTIxNDg0ODcsLTE0Mzg5Mzc0NzEsMT
+k5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OTQyMjc0NjQsMTg0Nzg1
+NzcyOSwtMTcyOTgzNTIzLDEwNzAzMTgwNTJdfQ==
 -->
