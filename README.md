@@ -71,9 +71,9 @@ Name:  SSL_ENDPOINT_IDENTIFICATION_ALGORITHM
 Default value: Empty string
 Description: The endpoint identification algorithm to validate the server hostname using the server certificate.
 
-Name:  KAFKASTORE_SSL_KEY_PASSWORD
+Name:  SSL_KEY_PASSWORD
 Default value: password
-Description: Kafkastore key password
+Description: SSL key password
 
 Name:  KAFKASTORE_SSL_KEYSTORE_LOCATION 
 Default value: /u01/cnfkfk/etc/ssl/kafka-broker-0.keystore.jks
@@ -143,6 +143,6 @@ Name:   SCHEMA_REGISTRY_JMX_PORT
 Default value: 8080
 Description: Schema registry JMX port.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQxOTAxNTY2OCwxODQ3ODU3NzI5LC0xNz
-I5ODM1MjMsMTA3MDMxODA1Ml19
+eyJoaXN0b3J5IjpbLTEwODgzMDA0MTcsMTg0Nzg1NzcyOSwtMT
+cyOTgzNTIzLDEwNzAzMTgwNTJdfQ==
 -->
