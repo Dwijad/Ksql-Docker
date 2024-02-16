@@ -322,7 +322,8 @@ $ DOCKER_BUILDKIT=1 docker buildx build -t <repo-name>/ksql-docker:<tag name> --
     status: {}
 
 ### JMX
-The JMX 
+
+The dockerfile  includes a line that exports environment variable `KSQL_JMX_OPTS` 
 
     echo  export  KSQL_JMX_OPTS=\"-Djava.rmi.server.hostname='${HOSTNAME}'  -Dcom.sun.management.jmxremote  -Dcom.sun.management.jmxremote.port=1099  -Dcom.sun.management.jmxremote.authenticate=false  -Dcom.sun.management.jmxremote.ssl=false  -Dcom.sun.management.jmxremote.rmi.port=1099  -javaagent:'${KAFKA_HOME}'/etc/ksqldb/jmx_prometheus_javaagent-0.20.0.jar=7010:'${KAFKA_HOME}'/etc/ksqldb/ksql-jmx.yml\"  >>  ~/.bashrc
 
@@ -365,7 +366,7 @@ Ksqldb server configuration includes following lines for user authentication.
  - https://docs.ksqldb.io/en/latest/
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNTE5MzkzNjI3LDk0MDgwMzk2MSwxODY1NT
+eyJoaXN0b3J5IjpbMjg0NzU2NTA1LDk0MDgwMzk2MSwxODY1NT
 U4NzMsLTI1MjE4MTU2MiwxMDM3NDYzOTM1LC0xMjg1NTY3MzY4
 LC0xMjg4Nzc0OTQxLDQ2NDAwNTY2OCwtNTMxMjk5ODQxLDE5OD
 A3NTA1NjIsODIwNjI3NDQ5LC0xMTIxMTI2MTUyLDk5MjE0ODQ4
