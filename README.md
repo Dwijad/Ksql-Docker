@@ -244,13 +244,16 @@ Default value: 2
 Description: Configure underlying Kafka Streams internal topics in order to achieve better fault tolerance
 
 Name: KSQL_STREAMS_STATE_DIR
-Default value: /u01/cnfkfk/etc/ssl/kafka-broker-0.keystore.jks
-Description: /u01/cnfkfk/etc/ksqldb/tmp
+Default value: /u01/cnfkfk/etc/ksqldb/tmp
+Description: Sets the storage directory for stateful operations, like aggregations and joins, to a durable location.
+
+
+
 
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwNzA0MTMzNDUsODIwNjI3NDQ5LC0xMT
-IxMTI2MTUyLDk5MjE0ODQ4NywtMTQzODkzNzQ3MSwxOTk1NDA2
-Mjc5LC01MDg2ODczODUsLTU5NDIyNzQ2NCwxODQ3ODU3NzI5LC
-0xNzI5ODM1MjMsMTA3MDMxODA1Ml19
+eyJoaXN0b3J5IjpbNTA4MzUzOTY1LDgyMDYyNzQ0OSwtMTEyMT
+EyNjE1Miw5OTIxNDg0ODcsLTE0Mzg5Mzc0NzEsMTk5NTQwNjI3
+OSwtNTA4Njg3Mzg1LC01OTQyMjc0NjQsMTg0Nzg1NzcyOSwtMT
+cyOTgzNTIzLDEwNzAzMTgwNTJdfQ==
 -->
