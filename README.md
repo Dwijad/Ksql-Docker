@@ -255,12 +255,21 @@ Name: KSQL_STREAMS_NUM_STANDBY_REPLICAS
 Default value: 1
 Description: Sets the number of hot-standby replicas of internal state to maintain.
 
+Name: BOOTSTRAP_SERVERS
+Default value: test-kafka.default.svc.cluster.local:9092
+Description: A list of host and port pairs that is used for establishing the initial connection to the Kafka cluster. 
+
+Name: ADVERTISED_LISTENER
+Default value: https://<HOST_NAME>:8088
+Description: This is the URL used for inter-node communication.
+
+
 
 
 
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTgzMTk5NzAwNyw4MjA2Mjc0NDksLTExMj
+eyJoaXN0b3J5IjpbMjA1OTAxMTE0OSw4MjA2Mjc0NDksLTExMj
 ExMjYxNTIsOTkyMTQ4NDg3LC0xNDM4OTM3NDcxLDE5OTU0MDYy
 NzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4NDc4NTc3MjksLT
 E3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
