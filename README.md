@@ -150,8 +150,17 @@ Description: The SASL mechanism producer uses to connect Kafka broker.
 Name: PRODUCER_SASL_JAAS_CONFIG 
 Default value: org.apache.kafka.common.security.plain.PlainLoginModule
 Description: Specify the producer JAAS configuration.
+
+Name: SASL_USER
+Default value: user1
+Description: BASIC username.
+
+Name: SASL_PASSWORD
+Default value: password
+Description: Password for SASL_USER.
+```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExMjQzNTcyNTcsLTUwODY4NzM4NSwtNT
-k0MjI3NDY0LDE4NDc4NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4
-MDUyXX0=
+eyJoaXN0b3J5IjpbMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OT
+QyMjc0NjQsMTg0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNzAzMTgw
+NTJdfQ==
 -->
