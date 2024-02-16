@@ -235,10 +235,14 @@ Name: KSQL_STREAMS_REPLICATION_FACTOR
 Default value: 3
 Description: Specifies the replication factor of internal topics that Kafka Streams creates when local states are used or a stream is repartitioned for aggregation.
 
+Name: KSQL_STREAMS_PRODUCER_ACKS
+Default value: all
+Description: acks setting guarantees that a record will not be lost as long as one replica is alive.
+
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE2OTUwNjk4NDksODIwNjI3NDQ5LC0xMT
-IxMTI2MTUyLDk5MjE0ODQ4NywtMTQzODkzNzQ3MSwxOTk1NDA2
-Mjc5LC01MDg2ODczODUsLTU5NDIyNzQ2NCwxODQ3ODU3NzI5LC
-0xNzI5ODM1MjMsMTA3MDMxODA1Ml19
+eyJoaXN0b3J5IjpbOTU4NzQwMjk1LDgyMDYyNzQ0OSwtMTEyMT
+EyNjE1Miw5OTIxNDg0ODcsLTE0Mzg5Mzc0NzEsMTk5NTQwNjI3
+OSwtNTA4Njg3Mzg1LC01OTQyMjc0NjQsMTg0Nzg1NzcyOSwtMT
+cyOTgzNTIzLDEwNzAzMTgwNTJdfQ==
 -->
