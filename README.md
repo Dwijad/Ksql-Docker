@@ -338,9 +338,13 @@ Create auser 'fred' with password 'letmein'
     MD5:0d107d09f5bbe40cade3de5c71e9e9b7
     CRYPT:frd5btY/mvXo6
 
+Make an entry of user and password in the password file.
+
+    echo "fred: MD5:$(echo -n 'password' | md5sum | grep -o '^\S\+'),cli,admin" >> /u01/cnfkfk/etc/ksqldb/password-file
+
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyNDU4OTg4OTEsLTEyODg3NzQ5NDEsND
+eyJoaXN0b3J5IjpbLTEyODU1NjczNjgsLTEyODg3NzQ5NDEsND
 Y0MDA1NjY4LC01MzEyOTk4NDEsMTk4MDc1MDU2Miw4MjA2Mjc0
 NDksLTExMjExMjYxNTIsOTkyMTQ4NDg3LC0xNDM4OTM3NDcxLD
 E5OTU0MDYyNzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4NDc4
