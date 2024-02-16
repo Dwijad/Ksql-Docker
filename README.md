@@ -330,12 +330,19 @@ $ DOCKER_BUILDKIT=1 docker buildx build -t <repo-name>/ksql-docker:<tag name> --
                      debug="true";
     };
 
+Create auser 'fred' with password 'letmein'
+
+    $ ksql-run-class org.eclipse.jetty.util.security.Password fred letmein
+    letmein
+    OBF:1w8t1tvf1w261w8v1w1c1tvn1w8x
+    MD5:0d107d09f5bbe40cade3de5c71e9e9b7
+    CRYPT:frd5btY/mvXo6
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTk4MDc2MzQ0OSwtMTI4ODc3NDk0MSw0Nj
-QwMDU2NjgsLTUzMTI5OTg0MSwxOTgwNzUwNTYyLDgyMDYyNzQ0
-OSwtMTEyMTEyNjE1Miw5OTIxNDg0ODcsLTE0Mzg5Mzc0NzEsMT
-k5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OTQyMjc0NjQsMTg0Nzg1
-NzcyOSwtMTcyOTgzNTIzLDEwNzAzMTgwNTJdfQ==
+eyJoaXN0b3J5IjpbLTEyNDU4OTg4OTEsLTEyODg3NzQ5NDEsND
+Y0MDA1NjY4LC01MzEyOTk4NDEsMTk4MDc1MDU2Miw4MjA2Mjc0
+NDksLTExMjExMjYxNTIsOTkyMTQ4NDg3LC0xNDM4OTM3NDcxLD
+E5OTU0MDYyNzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4NDc4
+NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
 -->
