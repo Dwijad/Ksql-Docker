@@ -330,7 +330,7 @@ $ DOCKER_BUILDKIT=1 docker buildx build -t <repo-name>/ksql-docker:<tag name> --
                      debug="true";
     };
 
-Create auser 'fred' with password 'letmein'
+Create an user 'fred' with password 'letmein'
 
     $ ksql-run-class org.eclipse.jetty.util.security.Password fred letmein
     letmein
@@ -344,9 +344,10 @@ Make an entry of user and password in the password file.
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyODU1NjczNjgsLTEyODg3NzQ5NDEsND
-Y0MDA1NjY4LC01MzEyOTk4NDEsMTk4MDc1MDU2Miw4MjA2Mjc0
-NDksLTExMjExMjYxNTIsOTkyMTQ4NDg3LC0xNDM4OTM3NDcxLD
-E5OTU0MDYyNzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4NDc4
-NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
+eyJoaXN0b3J5IjpbLTY3OTUyNTU2MiwtMTI4NTU2NzM2OCwtMT
+I4ODc3NDk0MSw0NjQwMDU2NjgsLTUzMTI5OTg0MSwxOTgwNzUw
+NTYyLDgyMDYyNzQ0OSwtMTEyMTEyNjE1Miw5OTIxNDg0ODcsLT
+E0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OTQy
+Mjc0NjQsMTg0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNzAzMTgwNT
+JdfQ==
 -->
