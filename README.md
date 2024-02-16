@@ -222,10 +222,23 @@ Description: SSL keystore location while connecting to secured schema registry s
 Name: KSQL_SCHEMA_REGISTRY_SSL_KEY_PASSWORD
 Default value: password
 Description: SSL key password while connecting to secured schema registry server.
+
+Name: KSQL_STREAMS_PRODUCER_DELIVERY_TIMEOUT_MS
+Default value: 300000
+Description: The maximum amount of time, in milliseconds, a task might stall due to internal errors and retries until an error is raised. 
+
+Name: KSQL_STREAMS_PRODUCER_MAX_BLOCK_MS
+Default value: 9223372036854775807
+Description: This allows KSQL to pause processing if the underlying Kafka cluster is unavailable.
+
+Name: KSQL_STREAMS_REPLICATION_FACTOR
+Default value: 3
+Description: Specifies the replication factor of internal topics that Kafka Streams creates when local states are used or a stream is repartitioned for aggregation.
+
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODIwNjI3NDQ5LC0xMTIxMTI2MTUyLDk5Mj
-E0ODQ4NywtMTQzODkzNzQ3MSwxOTk1NDA2Mjc5LC01MDg2ODcz
-ODUsLTU5NDIyNzQ2NCwxODQ3ODU3NzI5LC0xNzI5ODM1MjMsMT
-A3MDMxODA1Ml19
+eyJoaXN0b3J5IjpbLTE2OTUwNjk4NDksODIwNjI3NDQ5LC0xMT
+IxMTI2MTUyLDk5MjE0ODQ4NywtMTQzODkzNzQ3MSwxOTk1NDA2
+Mjc5LC01MDg2ODczODUsLTU5NDIyNzQ2NCwxODQ3ODU3NzI5LC
+0xNzI5ODM1MjMsMTA3MDMxODA1Ml19
 -->
