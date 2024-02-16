@@ -263,6 +263,18 @@ Name: ADVERTISED_LISTENER
 Default value: https://<HOST_NAME>:8088
 Description: This is the URL used for inter-node communication.
 
+Name: KSQL_SERVICE_ID
+Default value: hf_kafka_ksql_001
+Description: The service ID of the ksqlDB server. This is used to define the ksqlDB cluster membership of a ksqlDB Server instance.
+
+Name: CONFLUENT_SUPPORT_METRICS_ENABLE
+Default value: false
+Description: Enables Confluent Metrics Reporter.
+
+Name: KSQL_INTERNAL_TOPIC_REPLICAS
+Default value: 3
+Description: The number of replicas for the internal topics created by ksqlDB Server. 
+
 
 
 
@@ -270,8 +282,8 @@ Description: This is the URL used for inter-node communication.
 
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzc1MjQ1MDg3LDgyMDYyNzQ0OSwtMTEyMT
-EyNjE1Miw5OTIxNDg0ODcsLTE0Mzg5Mzc0NzEsMTk5NTQwNjI3
-OSwtNTA4Njg3Mzg1LC01OTQyMjc0NjQsMTg0Nzg1NzcyOSwtMT
-cyOTgzNTIzLDEwNzAzMTgwNTJdfQ==
+eyJoaXN0b3J5IjpbMTk4MDc1MDU2Miw4MjA2Mjc0NDksLTExMj
+ExMjYxNTIsOTkyMTQ4NDg3LC0xNDM4OTM3NDcxLDE5OTU0MDYy
+NzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4NDc4NTc3MjksLT
+E3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
 -->
