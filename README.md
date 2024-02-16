@@ -111,27 +111,12 @@ Name: CONSUMER_SASL_MECHANISM
 Default value: PLAIN
 Description: The SASL mechanism consumer uses to connect Kafka broker.
 
+Name: CONSUMER_SASL_JAAS_CONFIG 
+Default value: org.apache.kafka.common.security.plain.PlainLoginModule
+Description: Specify the consumer JAAS configuration.
 
-Name:   SCHEMA_REGISTRY_JMX_OPTS   
-Default value: "-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=8080 -Djava.rmi.server.hostname=schema-registry-0 -javaagent:/u01/cnfkfk/etc/schema-registry/jmx_prometheus_javaagent-0.20.0.jar=8080:/u01/cnfkfk/etc/schema-registry/jmx-schema-registry-prometheus.yml"
-Description: JMX options. Use this variable to override the default JMX options
 
-Name:   SCHEMA_REGISTRY_JMX_ENABLED   
-Default value: None
-Description: Whether JMX should be enabled or not.
-
-Name:   SCHEMA_REGISTRY_HOST_NAME   
-Default value: Default hostname of the container.
-Description: Hostname of the schema registry server.         
-
-Name:   SCHEMA_REGISTRY_JMX_HOSTNAME  
-Default value: Default hostname of the container.
-Description: JMX Hostname of the schema registry server. 
-
-Name:   SCHEMA_REGISTRY_JMX_PORT 
-Default value: 8080
-Description: Schema registry JMX port.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTk4MzUzNjYwNywtNTk0MjI3NDY0LDE4ND
+eyJoaXN0b3J5IjpbLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4ND
 c4NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
 -->
