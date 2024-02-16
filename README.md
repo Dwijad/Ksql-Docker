@@ -278,15 +278,26 @@ Description: The number of replicas for the internal topics created by ksqlDB Se
 Name: KSQL_INTERNAL_TOPIC_MIN_INSYNC_REPLICAS
 Default value: 2
 Description: Minimum number of Ksql internal topics insync replicas.
+Name: AUTHENTICATION_METHOD
+Default value: BASIC
+Description: KsqlDB user authentication method
 
+Name: AUTHENTICATION_ROLES
+Default value: admin,user,cli
+Description: A comma-separated list of user roles with access to the ksqlDB server. 
+
+Name: AUTHENTICATION_REALM
+Default value: KsqlServerProps
+Description: Authentication realm to use by Ksqldb server. The config must match a section within jaas_config.file.
 
 
 
 
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTUzMTI5OTg0MSwxOTgwNzUwNTYyLDgyMD
-YyNzQ0OSwtMTEyMTEyNjE1Miw5OTIxNDg0ODcsLTE0Mzg5Mzc0
-NzEsMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OTQyMjc0NjQsMT
-g0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNzAzMTgwNTJdfQ==
+eyJoaXN0b3J5IjpbLTc1NzY5NjcyNiwtNTMxMjk5ODQxLDE5OD
+A3NTA1NjIsODIwNjI3NDQ5LC0xMTIxMTI2MTUyLDk5MjE0ODQ4
+NywtMTQzODkzNzQ3MSwxOTk1NDA2Mjc5LC01MDg2ODczODUsLT
+U5NDIyNzQ2NCwxODQ3ODU3NzI5LC0xNzI5ODM1MjMsMTA3MDMx
+ODA1Ml19
 -->
