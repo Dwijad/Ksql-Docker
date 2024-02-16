@@ -15,7 +15,7 @@ Ksqldb docker image built with Oracle JDK 17 .
 -  Oracle Java Cryptography Extension added
 -  SHA 256 sum checks for all downloads
 -  JAVA_HOME environment variable and net tools set up
--  Integrated kafka keystor and truststore certificate
+-  Integrated kafka keystore and truststore certificate
 
 ### Build
 
@@ -33,7 +33,10 @@ $ DOCKER_BUILDKIT=1 docker buildx build -t <repo-name>/ksql-docker:<tag name> --
 
     $ docker run -d --name=ksql-1 -e SCHEMA_REGISTRY_MODE="HTTPS" -e BROKER_LISTENER_MODE="SASL_SSL" -e SASL_USER="user1" -e SASL_PASSWORD="password" -e AUTHENTICATION_REALM="KsqlServerProps" localhost:5000/ksql-docker:latest
 
+### Environment variables:
+
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTE4Mzg1NDM5NiwtMTcyOTgzNTIzLDEwNz
+eyJoaXN0b3J5IjpbMTM1NTk0NjkwNCwtMTcyOTgzNTIzLDEwNz
 AzMTgwNTJdfQ==
 -->
