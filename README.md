@@ -25,14 +25,12 @@ To build from scratch, clone the repo and copy kafka keystore/truststore certifi
 $ git clone https://github.com/Dwijad/Ksql-Docker.git
 $ copy {ca-cert, kafka.truststore.jks, kafka.keystore.jks} to ~/Ksql-Docker/script/ca 
 ```
-
 Build the docker image
-
 ```
 $ DOCKER_BUILDKIT=1 docker buildx build -t repo-name/ksql-docker:latest --no-cache --progress=plain .
 ```
 ### Run
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwMzEyMDM1OTEsMTA3MDMxODA1Ml19
+eyJoaXN0b3J5IjpbLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
 -->
