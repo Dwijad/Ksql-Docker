@@ -333,7 +333,7 @@ The default authentication method configured for user in Ksqlserver is BASIC wit
                      debug="true";
     };
 
-Create an user 'fred' with password 'letmein'
+A default user 'fred' with password 'password'
 
     $ ksql-run-class org.eclipse.jetty.util.security.Password fred letmein
     letmein
@@ -347,10 +347,10 @@ Make an entry of user and password in the password file.
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTg1OTg4NjYxNCwtMTI4NTU2NzM2OCwtMT
-I4ODc3NDk0MSw0NjQwMDU2NjgsLTUzMTI5OTg0MSwxOTgwNzUw
-NTYyLDgyMDYyNzQ0OSwtMTEyMTEyNjE1Miw5OTIxNDg0ODcsLT
-E0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OTQy
-Mjc0NjQsMTg0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNzAzMTgwNT
-JdfQ==
+eyJoaXN0b3J5IjpbMTI0ODY1MTIyLC0xMjg1NTY3MzY4LC0xMj
+g4Nzc0OTQxLDQ2NDAwNTY2OCwtNTMxMjk5ODQxLDE5ODA3NTA1
+NjIsODIwNjI3NDQ5LC0xMTIxMTI2MTUyLDk5MjE0ODQ4NywtMT
+QzODkzNzQ3MSwxOTk1NDA2Mjc5LC01MDg2ODczODUsLTU5NDIy
+NzQ2NCwxODQ3ODU3NzI5LC0xNzI5ODM1MjMsMTA3MDMxODA1Ml
+19
 -->
