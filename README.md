@@ -321,6 +321,8 @@ $ DOCKER_BUILDKIT=1 docker buildx build -t <repo-name>/ksql-docker:<tag name> --
       restartPolicy: Always
     status: {}
 
+### JMX
+
 ### User authentication
 
 The default authentication method configured for user in Ksqldb server is `BASIC` with authentication realm being `KsqlServerProps`.  The file `jaas_config.file` defines how the ksqlDB server authenticates users.
@@ -359,10 +361,11 @@ Ksqldb server configuration includes following lines for user authentication.
  - https://docs.ksqldb.io/en/latest/
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTQwODAzOTYxLDE4NjU1NTg3MywtMjUyMT
-gxNTYyLDEwMzc0NjM5MzUsLTEyODU1NjczNjgsLTEyODg3NzQ5
-NDEsNDY0MDA1NjY4LC01MzEyOTk4NDEsMTk4MDc1MDU2Miw4Mj
-A2Mjc0NDksLTExMjExMjYxNTIsOTkyMTQ4NDg3LC0xNDM4OTM3
-NDcxLDE5OTU0MDYyNzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LD
-E4NDc4NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
+eyJoaXN0b3J5IjpbLTExMDA5NjQzNyw5NDA4MDM5NjEsMTg2NT
+U1ODczLC0yNTIxODE1NjIsMTAzNzQ2MzkzNSwtMTI4NTU2NzM2
+OCwtMTI4ODc3NDk0MSw0NjQwMDU2NjgsLTUzMTI5OTg0MSwxOT
+gwNzUwNTYyLDgyMDYyNzQ0OSwtMTEyMTEyNjE1Miw5OTIxNDg0
+ODcsLTE0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC
+01OTQyMjc0NjQsMTg0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNzAz
+MTgwNTJdfQ==
 -->
