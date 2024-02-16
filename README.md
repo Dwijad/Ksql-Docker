@@ -199,11 +199,33 @@ Name: SECURITY_PROTOCOL
 Default value: SASL_SSL
 Description: The security protocol used by ksql while connecting to kafka broker.
 
-```
+Name: KSQL_SCHEMA_REGISTRY_URL
+Default value: https://sr-service-https:8082
+Description: Schema registry URL.
+
+Name: KSQL_SCHEMA_REGISTRY_SSL_TRUSTSTORE_PASSWORD
+Default value: password
+Description: SSL truststore password while connecting to secured schema registry server.
+
+Name: KSQL_SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION
+Default value: /u01/cnfkfk/etc/ssl/kafka.truststore.jks
+Description: SSL truststore location while connecting to secured schema registry server.
+
+Name: KSQL_SCHEMA_REGISTRY_SSL_KEYSTORE_PASSWORD
+Default value: password
+Description: SSL keystore password while connecting to secured schema registry server.
+
+Name: KSQL_SCHEMA_REGISTRY_SSL_KEYSTORE_LOCATION
+Default value: /u01/cnfkfk/etc/ssl/kafka-broker-0.keystore.jks
+Description: SSL keystore location while connecting to secured schema registry server.
+
+Name: KSQL_SCHEMA_REGISTRY_SSL_KEY_PASSWORD
+Default value: password
+Description: SSL key password while connecting to secured schema registry server.
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExMjExMjYxNTIsOTkyMTQ4NDg3LC0xND
-M4OTM3NDcxLDE5OTU0MDYyNzksLTUwODY4NzM4NSwtNTk0MjI3
-NDY0LDE4NDc4NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX
-0=
+eyJoaXN0b3J5IjpbODIwNjI3NDQ5LC0xMTIxMTI2MTUyLDk5Mj
+E0ODQ4NywtMTQzODkzNzQ3MSwxOTk1NDA2Mjc5LC01MDg2ODcz
+ODUsLTU5NDIyNzQ2NCwxODQ3ODU3NzI5LC0xNzI5ODM1MjMsMT
+A3MDMxODA1Ml19
 -->
