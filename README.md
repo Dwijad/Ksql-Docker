@@ -186,9 +186,19 @@ Description: Kafka Broker listener mode.
 Name: SCHEMA_REGISTRY_MODE
 Default value: HTTPS
 Description: Ksql connection protocol to schema registry. Values can be either HTTP or HTTPS
+
+Name: KSQL_OPTS
+Default value: -Dauthentication.method=BASIC -Dauthentication.realm=KsqlServerProps -Dauthentication.roles=admin -Djava.security.auth.login.config=/u01/cnfkfk/etc/ksqldb/jaas_config.file
+Description: Environment variable to set ksql server settings  
+
+Name: KSQL_HEAP_OPTS
+Default value: -Xmx512M -Xms512M
+Description: Set the JVM heap size on the host
+
+
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNT
-A4Njg3Mzg1LC01OTQyMjc0NjQsMTg0Nzg1NzcyOSwtMTcyOTgz
-NTIzLDEwNzAzMTgwNTJdfQ==
+eyJoaXN0b3J5IjpbOTkyMTQ4NDg3LC0xNDM4OTM3NDcxLDE5OT
+U0MDYyNzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4NDc4NTc3
+MjksLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
 -->
