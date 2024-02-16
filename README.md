@@ -19,7 +19,7 @@ Ksqldb docker image built with Oracle JDK 17 .
 
 ### Build
 
-To build from scratch, clone the repo and copy kafka keystore/truststore certificates and public certificate authority (CA) file of kafka broker to  `script/ca`  folder.
+To build from scratch, clone the repo and copy kafka `keystore/truststore` certificates and public certificate authority (CA) file of kafka broker to  `script/ca`  folder.
 
 ```
 $ git clone https://github.com/Dwijad/Ksql-Docker.git
@@ -334,7 +334,7 @@ Location for JMX configuration for ksql metrics:  `/u01/cnfkfk/etc/kafka/ksql-jm
 
 ### User authentication
 
-The default authentication method configured for user in Ksqldb server is `BASIC` with authentication realm being `KsqlServerProps`.  The file `jaas_config.file` defines how the ksqlDB server authenticates users.
+The default authentication method configured for user in Ksqldb server is `BASIC` with authentication realm being `KsqlServerProps`.  The file `jaas_config.file` defines how the `ksqlDB` server authenticates users.
  
 
     $ cat /u01/cnfkfk/etc/ksqldb/jaas_config.file
@@ -370,11 +370,11 @@ Ksqldb server configuration includes following lines for user authentication.
  - https://docs.ksqldb.io/en/latest/
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExODk4NzM5NDIsOTQwODAzOTYxLDE4Nj
-U1NTg3MywtMjUyMTgxNTYyLDEwMzc0NjM5MzUsLTEyODU1Njcz
-NjgsLTEyODg3NzQ5NDEsNDY0MDA1NjY4LC01MzEyOTk4NDEsMT
-k4MDc1MDU2Miw4MjA2Mjc0NDksLTExMjExMjYxNTIsOTkyMTQ4
-NDg3LC0xNDM4OTM3NDcxLDE5OTU0MDYyNzksLTUwODY4NzM4NS
-wtNTk0MjI3NDY0LDE4NDc4NTc3MjksLTE3Mjk4MzUyMywxMDcw
-MzE4MDUyXX0=
+eyJoaXN0b3J5IjpbOTYyMDM0MDgwLC0xMTg5ODczOTQyLDk0MD
+gwMzk2MSwxODY1NTU4NzMsLTI1MjE4MTU2MiwxMDM3NDYzOTM1
+LC0xMjg1NTY3MzY4LC0xMjg4Nzc0OTQxLDQ2NDAwNTY2OCwtNT
+MxMjk5ODQxLDE5ODA3NTA1NjIsODIwNjI3NDQ5LC0xMTIxMTI2
+MTUyLDk5MjE0ODQ4NywtMTQzODkzNzQ3MSwxOTk1NDA2Mjc5LC
+01MDg2ODczODUsLTU5NDIyNzQ2NCwxODQ3ODU3NzI5LC0xNzI5
+ODM1MjNdfQ==
 -->
