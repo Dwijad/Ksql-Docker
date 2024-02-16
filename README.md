@@ -115,8 +115,43 @@ Name: CONSUMER_SASL_JAAS_CONFIG
 Default value: org.apache.kafka.common.security.plain.PlainLoginModule
 Description: Specify the consumer JAAS configuration.
 
+Name: PRODUCER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM
+Default value: Empty String
+Description: Algorithm used by producer to validate Kafka server host name.
 
+Name: PRODUCER_SECURITY_PROTOCOL
+Default value: SASL_SSL
+Description: The security protocol used by producer while connecting to kafka broker.
+
+Name: PRODUCER_SSL_TRUSTSTORE_LOCATION
+Default value: /u01/cnfkfk/etc/ssl/kafka.truststore.jks
+Description: The SSL truststore location for producer. 
+
+Name: PRODUCER_SSL_TRUSTSTORE_PASSWORD
+Default value: password
+Description: The SSL truststore password for producer.
+
+Name: PRODUCER_SSL_KEYSTORE_LOCATION
+Default value: /u01/cnfkfk/etc/ssl/kafka-broker-0.keystore.jks
+Description: The SSL keystore location for producer. 
+
+Name: PRODUCER_SSL_KEYSTORE_PASSWORD
+Default value: password
+Description: The SSL keystore password for producer.
+
+Name: PRODUCER_SSL_KEY_PASSWORD
+Default value: password
+Description: The SSL key password for producer.
+
+Name: PRODUCER_SASL_MECHANISM
+Default value: PLAIN
+Description: The SASL mechanism producer uses to connect Kafka broker.
+
+Name: PRODUCER_SASL_JAAS_CONFIG 
+Default value: org.apache.kafka.common.security.plain.PlainLoginModule
+Description: Specify the producer JAAS configuration.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4ND
-c4NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
+eyJoaXN0b3J5IjpbLTExMjQzNTcyNTcsLTUwODY4NzM4NSwtNT
+k0MjI3NDY0LDE4NDc4NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4
+MDUyXX0=
 -->
