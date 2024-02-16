@@ -333,24 +333,16 @@ The default authentication method configured for user in Ksqlserver is BASIC wit
                      debug="true";
     };
 
-A default user 'fred' with password 'password'
+A default user 'fred' with password 'password' has been populated in the file `$KAFKA_HOME/etc/ksqldb/password-file`
 
-    $ ksql-run-class org.eclipse.jetty.util.security.Password fred letmein
-    letmein
-    OBF:1w8t1tvf1w261w8v1w1c1tvn1w8x
-    MD5:0d107d09f5bbe40cade3de5c71e9e9b7
-    CRYPT:frd5btY/mvXo6
-
-Make an entry of user and password in the password file.
-
-    echo "fred: MD5:$(echo -n 'password' | md5sum | grep -o '^\S\+'),cli,admin" >> /u01/cnfkfk/etc/ksqldb/password-file
+    echo  "fred: MD5:$(echo  -n 'password' |  md5sum  |  grep  -o '^\S\+'),user,cli,admin"  >>  $KAFKA_HOME/etc/ksqldb/password-file
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTI0ODY1MTIyLC0xMjg1NTY3MzY4LC0xMj
-g4Nzc0OTQxLDQ2NDAwNTY2OCwtNTMxMjk5ODQxLDE5ODA3NTA1
-NjIsODIwNjI3NDQ5LC0xMTIxMTI2MTUyLDk5MjE0ODQ4NywtMT
-QzODkzNzQ3MSwxOTk1NDA2Mjc5LC01MDg2ODczODUsLTU5NDIy
-NzQ2NCwxODQ3ODU3NzI5LC0xNzI5ODM1MjMsMTA3MDMxODA1Ml
-19
+eyJoaXN0b3J5IjpbLTkwNzE5OTg4MCwtMTI4NTU2NzM2OCwtMT
+I4ODc3NDk0MSw0NjQwMDU2NjgsLTUzMTI5OTg0MSwxOTgwNzUw
+NTYyLDgyMDYyNzQ0OSwtMTEyMTEyNjE1Miw5OTIxNDg0ODcsLT
+E0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OTQy
+Mjc0NjQsMTg0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNzAzMTgwNT
+JdfQ==
 -->
