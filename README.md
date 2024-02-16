@@ -350,11 +350,13 @@ Ksqldb server configuration includes following lines for user authentication.
 
 #### Connect using CLI
 
+    $ ksql --config-file /u01/cnfkfk/etc/ssl/client.properties  https://ksql.default.svc:8088 --user fred --password password
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAzNzQ2MzkzNSwtMTI4NTU2NzM2OCwtMT
-I4ODc3NDk0MSw0NjQwMDU2NjgsLTUzMTI5OTg0MSwxOTgwNzUw
-NTYyLDgyMDYyNzQ0OSwtMTEyMTEyNjE1Miw5OTIxNDg0ODcsLT
-E0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OTQy
-Mjc0NjQsMTg0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNzAzMTgwNT
-JdfQ==
+eyJoaXN0b3J5IjpbLTI1MjE4MTU2MiwxMDM3NDYzOTM1LC0xMj
+g1NTY3MzY4LC0xMjg4Nzc0OTQxLDQ2NDAwNTY2OCwtNTMxMjk5
+ODQxLDE5ODA3NTA1NjIsODIwNjI3NDQ5LC0xMTIxMTI2MTUyLD
+k5MjE0ODQ4NywtMTQzODkzNzQ3MSwxOTk1NDA2Mjc5LC01MDg2
+ODczODUsLTU5NDIyNzQ2NCwxODQ3ODU3NzI5LC0xNzI5ODM1Mj
+MsMTA3MDMxODA1Ml19
 -->
