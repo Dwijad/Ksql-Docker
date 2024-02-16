@@ -239,9 +239,14 @@ Name: KSQL_STREAMS_PRODUCER_ACKS
 Default value: all
 Description: acks setting guarantees that a record will not be lost as long as one replica is alive.
 
+Name: KSQL_STREAMS_TOPIC_MIN_INSYNC_REPLICAS
+Default value: 2
+Description: Configure underlying Kafka Streams internal topics in order to achieve better fault tolerance
+
+
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTU4NzQwMjk1LDgyMDYyNzQ0OSwtMTEyMT
+eyJoaXN0b3J5IjpbMTQ3NjA3NDA2LDgyMDYyNzQ0OSwtMTEyMT
 EyNjE1Miw5OTIxNDg0ODcsLTE0Mzg5Mzc0NzEsMTk5NTQwNjI3
 OSwtNTA4Njg3Mzg1LC01OTQyMjc0NjQsMTg0Nzg1NzcyOSwtMT
 cyOTgzNTIzLDEwNzAzMTgwNTJdfQ==
