@@ -337,12 +337,17 @@ A default user 'fred' with password 'password' has been populated in the file `$
 
     echo  "fred: MD5:$(echo  -n 'password' |  md5sum  |  grep  -o '^\S\+'),user,cli,admin"  >>  $KAFKA_HOME/etc/ksqldb/password-file
 
+Ksqldb server configuration includes following lines for user authentication.
+
+    authentication.method=BASIC
+    authentication.roles=admin
+    authentication.realm=KsqlServerProps
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDU0MDYzNTI4LC0xMjg1NTY3MzY4LC0xMj
-g4Nzc0OTQxLDQ2NDAwNTY2OCwtNTMxMjk5ODQxLDE5ODA3NTA1
-NjIsODIwNjI3NDQ5LC0xMTIxMTI2MTUyLDk5MjE0ODQ4NywtMT
-QzODkzNzQ3MSwxOTk1NDA2Mjc5LC01MDg2ODczODUsLTU5NDIy
-NzQ2NCwxODQ3ODU3NzI5LC0xNzI5ODM1MjMsMTA3MDMxODA1Ml
-19
+eyJoaXN0b3J5IjpbLTkwODM3NTIyOCwtMTI4NTU2NzM2OCwtMT
+I4ODc3NDk0MSw0NjQwMDU2NjgsLTUzMTI5OTg0MSwxOTgwNzUw
+NTYyLDgyMDYyNzQ0OSwtMTEyMTEyNjE1Miw5OTIxNDg0ODcsLT
+E0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OTQy
+Mjc0NjQsMTg0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNzAzMTgwNT
+JdfQ==
 -->
