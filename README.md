@@ -195,10 +195,15 @@ Name: KSQL_HEAP_OPTS
 Default value: -Xmx512M -Xms512M
 Description: Set the JVM heap size on the host
 
+Name: SECURITY_PROTOCOL
+Default value: SASL_SSL
+Description: The security protocol used by ksql while connecting to kafka broker.
 
 ```
+```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTkyMTQ4NDg3LC0xNDM4OTM3NDcxLDE5OT
-U0MDYyNzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4NDc4NTc3
-MjksLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
+eyJoaXN0b3J5IjpbLTExMjExMjYxNTIsOTkyMTQ4NDg3LC0xND
+M4OTM3NDcxLDE5OTU0MDYyNzksLTUwODY4NzM4NSwtNTk0MjI3
+NDY0LDE4NDc4NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX
+0=
 -->
