@@ -275,6 +275,9 @@ Name: KSQL_INTERNAL_TOPIC_REPLICAS
 Default value: 3
 Description: The number of replicas for the internal topics created by ksqlDB Server. 
 
+Name: KSQL_INTERNAL_TOPIC_MIN_INSYNC_REPLICAS
+Default value: 2
+Description: Minimum number of Ksql internal topics insync replicas.
 
 
 
@@ -282,8 +285,8 @@ Description: The number of replicas for the internal topics created by ksqlDB Se
 
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTk4MDc1MDU2Miw4MjA2Mjc0NDksLTExMj
-ExMjYxNTIsOTkyMTQ4NDg3LC0xNDM4OTM3NDcxLDE5OTU0MDYy
-NzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4NDc4NTc3MjksLT
-E3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
+eyJoaXN0b3J5IjpbLTUzMTI5OTg0MSwxOTgwNzUwNTYyLDgyMD
+YyNzQ0OSwtMTEyMTEyNjE1Miw5OTIxNDg0ODcsLTE0Mzg5Mzc0
+NzEsMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OTQyMjc0NjQsMT
+g0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNzAzMTgwNTJdfQ==
 -->
