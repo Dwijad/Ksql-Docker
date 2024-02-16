@@ -173,11 +173,15 @@ Description: The JMX options.
 
 Name: SASL_JAAS_CONFIG
 Default value: org.apache.kafka.common.security.plain.PlainLoginModule
-Description: Specify the JAAS configuration kafka client uses to connect kafka broker.
+Description: Specify the JAAS configuration ksql uses to connect kafka broker.
+
+Name: SASL_MECHANISM
+Default value: PLAIN
+Description: The sasl mechanism ksql uses to connect Kafka broker.
 
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTc5ODMxNjY2MywxOTk1NDA2Mjc5LC01MD
+eyJoaXN0b3J5IjpbLTExMTg4ODU4MywxOTk1NDA2Mjc5LC01MD
 g2ODczODUsLTU5NDIyNzQ2NCwxODQ3ODU3NzI5LC0xNzI5ODM1
 MjMsMTA3MDMxODA1Ml19
 -->
