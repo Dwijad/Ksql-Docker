@@ -291,10 +291,40 @@ $ DOCKER_BUILDKIT=1 docker buildx build -t <repo-name>/ksql-docker:<tag name> --
     Default value: KsqlServerProps
     Description: Authentication realm to use by Ksqldb server. The config must match a section within jaas_config.file.
 
+### Kubernetes
+
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: ksql-0
+      name: ksql-0
+    spec:
+      containers:
+      - image: localhost:5000/ksql-docker:latest
+        imagePullPolicy: IfNotPresent
+        name: ksql-0
+        env:
+        - name: SCHEMA_REGISTRY_MODE
+          value: "HTTPS"
+        - name: BROKER_LISTENER_MODE
+          value: "SASL_SSL"
+        - name: SASL_USER
+          value: "user1"
+        - name: SASL_PASSWORD
+          value: "password"
+        - name: AUTHENTICATION_REALM
+          value: "KsqlServerProps"
+        resources: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+    status: {}
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDY0MDA1NjY4LC01MzEyOTk4NDEsMTk4MD
-c1MDU2Miw4MjA2Mjc0NDksLTExMjExMjYxNTIsOTkyMTQ4NDg3
-LC0xNDM4OTM3NDcxLDE5OTU0MDYyNzksLTUwODY4NzM4NSwtNT
-k0MjI3NDY0LDE4NDc4NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4
-MDUyXX0=
+eyJoaXN0b3J5IjpbNDkwOTczNDYzLDQ2NDAwNTY2OCwtNTMxMj
+k5ODQxLDE5ODA3NTA1NjIsODIwNjI3NDQ5LC0xMTIxMTI2MTUy
+LDk5MjE0ODQ4NywtMTQzODkzNzQ3MSwxOTk1NDA2Mjc5LC01MD
+g2ODczODUsLTU5NDIyNzQ2NCwxODQ3ODU3NzI5LC0xNzI5ODM1
+MjMsMTA3MDMxODA1Ml19
 -->
