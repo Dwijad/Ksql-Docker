@@ -179,9 +179,16 @@ Name: SASL_MECHANISM
 Default value: PLAIN
 Description: The sasl mechanism ksql uses to connect Kafka broker.
 
+Name: BROKER_LISTENER_MODE
+Default value: SASL_SSL
+Description: Kafka Broker listener mode.
+
+Name: SCHEMA_REGISTRY_MODE
+Default value: HTTPS
+Description: Ksql connection protocol to schema registry. Values can be either HTTP or HTTPS
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExMTg4ODU4MywxOTk1NDA2Mjc5LC01MD
-g2ODczODUsLTU5NDIyNzQ2NCwxODQ3ODU3NzI5LC0xNzI5ODM1
-MjMsMTA3MDMxODA1Ml19
+eyJoaXN0b3J5IjpbLTE0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNT
+A4Njg3Mzg1LC01OTQyMjc0NjQsMTg0Nzg1NzcyOSwtMTcyOTgz
+NTIzLDEwNzAzMTgwNTJdfQ==
 -->
