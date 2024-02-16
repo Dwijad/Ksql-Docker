@@ -64,7 +64,7 @@ Default value: /u01/cnfkfk/etc/ssl/kafka.truststore.jks
 Description: SSL truststore file
 
 Name:  SSL_CLIENT_AUTH 
-Default value: false
+Default value: None
 Description: Whether or not to require the HTTPS client to authenticate via the server’s trust store.
 
 Name:  SSL_ENDPOINT_IDENTIFICATION_ALGORITHM
@@ -143,6 +143,6 @@ Name:   SCHEMA_REGISTRY_JMX_PORT
 Default value: 8080
 Description: Schema registry JMX port.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjk4NzcwMTU1LDE4NDc4NTc3MjksLTE3Mj
-k4MzUyMywxMDcwMzE4MDUyXX0=
+eyJoaXN0b3J5IjpbLTQxOTAxNTY2OCwxODQ3ODU3NzI5LC0xNz
+I5ODM1MjMsMTA3MDMxODA1Ml19
 -->
