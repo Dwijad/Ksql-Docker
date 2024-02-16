@@ -323,6 +323,8 @@ $ DOCKER_BUILDKIT=1 docker buildx build -t <repo-name>/ksql-docker:<tag name> --
 
 ### JMX
 
+KSQL_JMX_OPTS=-Djava.rmi.server.hostname=ksql-0 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=1099 -javaagent:/u01/cnfkfk/etc/ksqldb/jmx_prometheus_javaagent-0.20.0.jar=7010:/u01/cnfkfk/etc/ksqldb/ksql-jmx.yml
+
 ### User authentication
 
 The default authentication method configured for user in Ksqldb server is `BASIC` with authentication realm being `KsqlServerProps`.  The file `jaas_config.file` defines how the ksqlDB server authenticates users.
@@ -361,11 +363,11 @@ Ksqldb server configuration includes following lines for user authentication.
  - https://docs.ksqldb.io/en/latest/
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExMDA5NjQzNyw5NDA4MDM5NjEsMTg2NT
-U1ODczLC0yNTIxODE1NjIsMTAzNzQ2MzkzNSwtMTI4NTU2NzM2
-OCwtMTI4ODc3NDk0MSw0NjQwMDU2NjgsLTUzMTI5OTg0MSwxOT
-gwNzUwNTYyLDgyMDYyNzQ0OSwtMTEyMTEyNjE1Miw5OTIxNDg0
-ODcsLTE0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC
-01OTQyMjc0NjQsMTg0Nzg1NzcyOSwtMTcyOTgzNTIzLDEwNzAz
-MTgwNTJdfQ==
+eyJoaXN0b3J5IjpbNzczMTc5ODU3LDk0MDgwMzk2MSwxODY1NT
+U4NzMsLTI1MjE4MTU2MiwxMDM3NDYzOTM1LC0xMjg1NTY3MzY4
+LC0xMjg4Nzc0OTQxLDQ2NDAwNTY2OCwtNTMxMjk5ODQxLDE5OD
+A3NTA1NjIsODIwNjI3NDQ5LC0xMTIxMTI2MTUyLDk5MjE0ODQ4
+NywtMTQzODkzNzQ3MSwxOTk1NDA2Mjc5LC01MDg2ODczODUsLT
+U5NDIyNzQ2NCwxODQ3ODU3NzI5LC0xNzI5ODM1MjMsMTA3MDMx
+ODA1Ml19
 -->
