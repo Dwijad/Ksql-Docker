@@ -247,13 +247,21 @@ Name: KSQL_STREAMS_STATE_DIR
 Default value: /u01/cnfkfk/etc/ksqldb/tmp
 Description: Sets the storage directory for stateful operations, like aggregations and joins, to a durable location.
 
+Name: KSQL_STREAMS_STATE_DIR
+Default value: /u01/cnfkfk/etc/ssl/kafka-broker-0.keystore.jks
+Description: /u01/cnfkfk/etc/ksqldb/tmp
+
+Name: KSQL_STREAMS_NUM_STANDBY_REPLICAS
+Default value: 1
+Description: Sets the number of hot-standby replicas of internal state to maintain.
+
 
 
 
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNTA4MzUzOTY1LDgyMDYyNzQ0OSwtMTEyMT
-EyNjE1Miw5OTIxNDg0ODcsLTE0Mzg5Mzc0NzEsMTk5NTQwNjI3
-OSwtNTA4Njg3Mzg1LC01OTQyMjc0NjQsMTg0Nzg1NzcyOSwtMT
-cyOTgzNTIzLDEwNzAzMTgwNTJdfQ==
+eyJoaXN0b3J5IjpbMTgzMTk5NzAwNyw4MjA2Mjc0NDksLTExMj
+ExMjYxNTIsOTkyMTQ4NDg3LC0xNDM4OTM3NDcxLDE5OTU0MDYy
+NzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4NDc4NTc3MjksLT
+E3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
 -->
