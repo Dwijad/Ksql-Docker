@@ -354,11 +354,15 @@ Ksqldb server configuration includes following lines for user authentication.
 
 ![Screenshot from 2024-02-16 19-42-32](https://github.com/Dwijad/Ksql-Docker/assets/12824049/15346cc1-9b37-4784-a099-bab173782033)
 
+### References
+
+ - https://docs.ksqldb.io/en/latest/
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTg2NTU1ODczLC0yNTIxODE1NjIsMTAzNz
-Q2MzkzNSwtMTI4NTU2NzM2OCwtMTI4ODc3NDk0MSw0NjQwMDU2
-NjgsLTUzMTI5OTg0MSwxOTgwNzUwNTYyLDgyMDYyNzQ0OSwtMT
-EyMTEyNjE1Miw5OTIxNDg0ODcsLTE0Mzg5Mzc0NzEsMTk5NTQw
-NjI3OSwtNTA4Njg3Mzg1LC01OTQyMjc0NjQsMTg0Nzg1NzcyOS
-wtMTcyOTgzNTIzLDEwNzAzMTgwNTJdfQ==
+eyJoaXN0b3J5IjpbOTQwODAzOTYxLDE4NjU1NTg3MywtMjUyMT
+gxNTYyLDEwMzc0NjM5MzUsLTEyODU1NjczNjgsLTEyODg3NzQ5
+NDEsNDY0MDA1NjY4LC01MzEyOTk4NDEsMTk4MDc1MDU2Miw4Mj
+A2Mjc0NDksLTExMjExMjYxNTIsOTkyMTQ4NDg3LC0xNDM4OTM3
+NDcxLDE5OTU0MDYyNzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LD
+E4NDc4NTc3MjksLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
 -->
