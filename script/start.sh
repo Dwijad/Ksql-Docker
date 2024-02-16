@@ -22,7 +22,7 @@ ksql.streams.state.dir=${KSQL_STREAMS_STATE_DIR:-$KAFKA_HOME/etc/ksqldb/tmp}
 ksql.streams.num.standby.replicas=${KSQL_STREAMS_NUM_STANDBY_REPLICAS:-1}
 confluent.support.metrics.enable=${CONFLUENT_SUPPORT_METRICS_ENABLE:-false}
 authentication.method=${AUTHENTICATION_METHOD:-BASIC}
-authentication.roles=${AUTHENTICATION_ROLES:-admin,cli,user}
+authentication.roles=${AUTHENTICATION_ROLES:-admin,user,cli}
 authentication.realm=${AUTHENTICATION_REALM:-KsqlServerProps}
 EOF
 
