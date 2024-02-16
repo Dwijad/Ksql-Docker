@@ -31,6 +31,9 @@ $ DOCKER_BUILDKIT=1 docker buildx build -t repo-name/ksql-docker:latest --no-cac
 ```
 ### Run
 
+    $ docker run -d --name=ksql-1 -e SCHEMA_REGISTRY_MODE="HTTPS" -e BROKER_LISTENER_MODE="SASL_SSL" -e SASL_USER="user1" -e SASL_PASSWORD="password" -e AUTHENTICATION_REALM="KsqlServerProps" localhost:5000/ksql-docker:latest
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE3Mjk4MzUyMywxMDcwMzE4MDUyXX0=
+eyJoaXN0b3J5IjpbLTE1NTMzNjg1NDQsLTE3Mjk4MzUyMywxMD
+cwMzE4MDUyXX0=
 -->
