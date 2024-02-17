@@ -33,6 +33,7 @@ $ DOCKER_BUILDKIT=1 docker buildx build -t <repo-name>/ksql-docker:<tag name> --
 
     // Broker listener mode SASl_SSL and schema registry on HTTPS 
     $ docker run -d --name=ksql-1 -e SCHEMA_REGISTRY_MODE="HTTPS" -e BROKER_LISTENER_MODE="SASL_SSL" -e SASL_USER="user1" -e SASL_PASSWORD="password" -e AUTHENTICATION_REALM="KsqlServerProps" localhost:5000/ksql-docker:latest
+    
     // Broker listener mode PLAINTEXT and schema registry on HTTP  
     $ docker run -d --name=ksql-1 -e SCHEMA_REGISTRY_MODE="HTTP" -e BROKER_LISTENER_MODE="PLAINTEXT" -e AUTHENTICATION_REALM="KsqlServerProps" localhost:5000/ksql-docker:latest
 
@@ -373,11 +374,11 @@ Ksqldb server configuration includes following lines for user authentication.
  - https://docs.ksqldb.io/en/latest/
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTkxNTczNDg2OCw5NjIwMzQwODAsLTExOD
-k4NzM5NDIsOTQwODAzOTYxLDE4NjU1NTg3MywtMjUyMTgxNTYy
-LDEwMzc0NjM5MzUsLTEyODU1NjczNjgsLTEyODg3NzQ5NDEsND
-Y0MDA1NjY4LC01MzEyOTk4NDEsMTk4MDc1MDU2Miw4MjA2Mjc0
-NDksLTExMjExMjYxNTIsOTkyMTQ4NDg3LC0xNDM4OTM3NDcxLD
-E5OTU0MDYyNzksLTUwODY4NzM4NSwtNTk0MjI3NDY0LDE4NDc4
-NTc3MjldfQ==
+eyJoaXN0b3J5IjpbLTY3MjA4NDU0NiwtOTE1NzM0ODY4LDk2Mj
+AzNDA4MCwtMTE4OTg3Mzk0Miw5NDA4MDM5NjEsMTg2NTU1ODcz
+LC0yNTIxODE1NjIsMTAzNzQ2MzkzNSwtMTI4NTU2NzM2OCwtMT
+I4ODc3NDk0MSw0NjQwMDU2NjgsLTUzMTI5OTg0MSwxOTgwNzUw
+NTYyLDgyMDYyNzQ0OSwtMTEyMTEyNjE1Miw5OTIxNDg0ODcsLT
+E0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNTA4Njg3Mzg1LC01OTQy
+Mjc0NjRdfQ==
 -->
