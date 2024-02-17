@@ -365,7 +365,7 @@ Ksqldb server configuration includes following lines for user authentication.
     ...
     ...
 
-#### Connect using CLI
+#### Connect Ksql server using CLI
 
     $ ksql   https://ksql.default.svc:8088 --user fred --password password
 
@@ -376,11 +376,11 @@ Ksqldb server configuration includes following lines for user authentication.
  - https://docs.ksqldb.io/en/latest/
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwOTE3MzE5OTUsLTkxNTczNDg2OCw5Nj
-IwMzQwODAsLTExODk4NzM5NDIsOTQwODAzOTYxLDE4NjU1NTg3
-MywtMjUyMTgxNTYyLDEwMzc0NjM5MzUsLTEyODU1NjczNjgsLT
-EyODg3NzQ5NDEsNDY0MDA1NjY4LC01MzEyOTk4NDEsMTk4MDc1
-MDU2Miw4MjA2Mjc0NDksLTExMjExMjYxNTIsOTkyMTQ4NDg3LC
-0xNDM4OTM3NDcxLDE5OTU0MDYyNzksLTUwODY4NzM4NSwtNTk0
-MjI3NDY0XX0=
+eyJoaXN0b3J5IjpbMTgxMDQzNjM4OSwtMjA5MTczMTk5NSwtOT
+E1NzM0ODY4LDk2MjAzNDA4MCwtMTE4OTg3Mzk0Miw5NDA4MDM5
+NjEsMTg2NTU1ODczLC0yNTIxODE1NjIsMTAzNzQ2MzkzNSwtMT
+I4NTU2NzM2OCwtMTI4ODc3NDk0MSw0NjQwMDU2NjgsLTUzMTI5
+OTg0MSwxOTgwNzUwNTYyLDgyMDYyNzQ0OSwtMTEyMTEyNjE1Mi
+w5OTIxNDg0ODcsLTE0Mzg5Mzc0NzEsMTk5NTQwNjI3OSwtNTA4
+Njg3Mzg1XX0=
 -->
